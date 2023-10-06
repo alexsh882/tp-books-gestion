@@ -7,7 +7,8 @@ import fileUpload from 'express-fileupload';
 import { environments } from './config/environments.js';
 import { connectDB } from './config/database.js';
 
-import AuthorRoutes from './routes/author.routes.js'
+import authorRoutes from './routes/author.routes.js'
+import genreRoutes from './routes/genre.routes.js'
 
 import fileDirName from './utils/fileDirName.js';
 const { __dirname } = fileDirName(import.meta);
@@ -31,7 +32,8 @@ app.use(fileUpload());
 
 connectDB();
 
-app.use('/api', AuthorRoutes)
+app.use('/api', authorRoutes);
+app.use('/api', genreRoutes);
 
 
 app.listen(environments.APP_PORT, () => {
