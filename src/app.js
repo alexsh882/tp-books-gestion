@@ -7,7 +7,7 @@ import fileUpload from 'express-fileupload';
 import { environments } from './config/environments.js';
 import { connectDB } from './config/database.js';
 
-
+import AuthorRoutes from './routes/author.routes.js'
 
 import fileDirName from './utils/fileDirName.js';
 const { __dirname } = fileDirName(import.meta);
@@ -30,6 +30,8 @@ app.use(morgan("dev"));
 app.use(fileUpload());
 
 connectDB();
+
+app.use('/api', AuthorRoutes)
 
 
 app.listen(environments.APP_PORT, () => {
