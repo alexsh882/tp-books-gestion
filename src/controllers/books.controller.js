@@ -8,20 +8,20 @@ const { __dirname } = fileDirName(import.meta);
 
 export const indexBook = async (req, res) => {
   try {
-    const books = await Book.find();
+    const books = await Book.find()
+    .populate("genres", "name")
+    .populate("author", "name");
 
     if (!books || books.length === 0) {
-      res.json({
+      throw {
         status: 404,
         message: "No hay libros registrados aún.",
-      });
-      return;
+      };
     }
     return res.json(books);
   } catch (error) {
     console.log(error);
-    res.json({
-      status: error.status || 500,
+    res.status(error.status || 500).json({
       message: error.message || error,
     });
   }
@@ -106,11 +106,11 @@ export const updateBook = async (req, res) => {
       unlink(unlinkPath, function (err) {
         if (!err) {
           console.log("cover eliminado.");
-        }else{
-            console.log(err);
+        } else {
+          console.log(err);
         }
       });
-      
+
       const uploadPath = join(__dirname, "../../assets/covers/", new_file_name);
 
       book.image.original_filename = original_filename;

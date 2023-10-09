@@ -40,8 +40,8 @@ export const bookValidation = checkSchema({
   image: {
     custom: {
       options: async (value, { req }) => {
-        const { image } = req.files;
-        console.log(image);
+        const image = req.files?.image;
+        const { bookId } = req.params;
         if (image) {
           switch (image.mimetype) {
             case "image/jpg":
@@ -56,9 +56,9 @@ export const bookValidation = checkSchema({
               };
           }
         } else {
-          throw {
-            message: "El campo debe ser una imagen.",
-          };
+          if (!bookId) {
+            throw new Error("El campo imagen de portada es obligatorio.");
+          }
         }
       },
     },

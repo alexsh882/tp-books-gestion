@@ -38,7 +38,7 @@ const booksSchema = new Schema(
   },
   {
     virtuals: {
-      'image.url': {
+      'image.urlCover': {
         get() {
           return `${environments.APP_URL}:${environments.APP_PORT}/covers/${this.image.file_name}`;
         },
